@@ -24,30 +24,32 @@ off_t fsize(const char *filename) {
 unsigned char *read_file(const char * filename) {
   FILE *fptr;
   unsigned char *buffer;
-  buffer = (unsigned char*)malloc ( (__intmax_t)fsize(filename) * sizeof (unsigned char));
+  buffer = (unsigned char*)malloc ( (long)fsize(filename) * sizeof (unsigned char));
   if ((fptr = fopen(filename,"rb")) == NULL){
       printf("Error! opening file");
       // Program exits if the file pointer returns NULL.
       exit(1);
   }
   
-  fread(buffer,(__intmax_t)fsize(filename),1,fptr);
+  
+  fread(buffer,(long)fsize(filename),1,fptr);
   
   fclose(fptr); 
   return buffer;
 }
 
 void save_file(const char * filename1,const char * filename2, unsigned char *buffer) {
-  FILE *fptr;
-  if((fptr = fopen(filename2,"wb")) == NULL){
+  FILE *fptr2;
+  if((fptr2 = fopen(filename2,"wb")) == NULL){
        printf("Error! opening file");
        // Program exits if the file pointer returns NULL.
        exit(1);
    }
    
+   
 
-   fwrite(buffer,(__intmax_t)fsize(filename1),1,fptr);
-   fclose(fptr); 
+   fwrite(buffer,(long)fsize(filename1),1,fptr2);
+   fclose(fptr2); 
 }
 
 void printBuffer(unsigned char *buffer, const char * filename) {
