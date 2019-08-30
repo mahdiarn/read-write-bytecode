@@ -6,13 +6,14 @@
 #include <errno.h>
 
 #include "Bytecode.h"
+#include "FileFormat.h"
 
 int main(int argc, char **argv)
 {
     unsigned char *buffer;
     buffer = read_file(argv[1]);
-
-    save_file(argv[1], argv[2], buffer);
+    printFormat(buffer, argv[1]);
+    // save_file(argv[1], argv[2], buffer);
    
    return 0;
 }
