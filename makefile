@@ -1,3 +1,3 @@
 build:
 	@echo "Compiling program"
-	g++ -o bin/main src/main.c src/Bytecode.c src/FileFormat.c
+	g++ -o bin/main src/main.cpp src/Console.cpp src/File.cpp
