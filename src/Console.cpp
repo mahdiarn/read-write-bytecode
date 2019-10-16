@@ -24,7 +24,24 @@ void Console::main() {
                 file1.newFile(filename);
                 break;
             case 3:
-                file1.printFileType();
+                switch(file1.fileType()) {
+                    case 1:
+                        std::cout << "PBM\n";
+                        break;
+                    case 2:
+                        std::cout << "PGM\n";
+                        break;
+                    case 3:
+                        std::cout << "PPM\n";
+                        break;
+                    case 4:
+                        std::cout << "BMP\n";
+                        break;
+                    case 0:
+                    default:
+                        std::cout << "RAW\n";
+                        break;
+                }
                 break;
             default:
                 std::cout << "Unknown Command\n";
