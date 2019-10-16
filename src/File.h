@@ -9,6 +9,6 @@ class File {
         File();
         File(std::string filename);
         void printBytes(bool numeric = false);
-        void printFileType();
+        int fileType();
         void newFile(std::string filename);
 }; 

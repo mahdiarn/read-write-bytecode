@@ -33,18 +33,18 @@ void File::printBytes (bool numeric) {
     }
 }
 
-void File::printFileType() {
+int File::fileType() {
     std::vector<unsigned char>::iterator ptr; 
     if (((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '1')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '4'))) {
-        std::cout << "PBM\n";
+        return 1;
     } else if (((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '2')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '5'))){
-        std::cout << "PGM\n";
+        return 2;
     } else if(((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '3')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '6'))) {
-        std::cout << "PPM\n";
+        return 3;
     } else if((this->byteFile.at(0) == 'B') && (this->byteFile.at(1) == 'M')) {
-        std::cout << "BMP\n";
+        return 4;
     } else {
-        std::cout << "RAW\n";
+        return 0;
     }
 }
 
