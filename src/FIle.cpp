@@ -48,6 +48,22 @@ int File::fileType() {
     }
 }
 
+unsigned long long int File::fileSize() {
+    return this->byteFile.size();
+}
+
+void File::printFileSize() {
+    if (this->byteFile.size() > (1024 * 1024 * 1024)) {
+        std::cout << this->byteFile.size()/(1024 * 1024 * 1024) << " gb\n";
+    } else if (this->byteFile.size() > (1024 * 1024)) {
+        std::cout << this->byteFile.size()/(1024 * 1024) << " mb\n";
+    } else if (this->byteFile.size() > 1024) {
+        std::cout << this->byteFile.size()/1024 << " kb\n";
+    } else {
+        std::cout << this->byteFile.size() << " b\n";
+    }
+}
+
 void File::newFile(std::string filename) {
     std::streampos size;
     char * memblock;

@@ -10,5 +10,7 @@ class File {
         File(std::string filename);
         void printBytes(bool numeric = false);
         int fileType();
+        unsigned long long int fileSize();
+        void printFileSize();
         void newFile(std::string filename);
 }; 

@@ -43,6 +43,9 @@ void Console::main() {
                         break;
                 }
                 break;
+            case 4:
+                file1.printFileSize();
+                break;
             default:
                 std::cout << "Unknown Command\n";
         }
@@ -57,6 +60,8 @@ void Console::setCommand(std::string input) {
         this->commandCode = 2;
     } else if (input.compare("show-file-type") == 0) {
         this->commandCode = 3;
+    } else if (input.compare("show-file-size") == 0) {
+        this->commandCode = 4;
     } else {
         this->commandCode = 0;
     }
