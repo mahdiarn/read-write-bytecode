@@ -10,6 +10,7 @@ class Citra {
         Citra();
         void loadFile(std::vector<unsigned char> byteFile, int fileType);
         void printCitra();
+        void printKanal(int pos);
         unsigned long long getWidth();
         unsigned long long getHeight();
 };
