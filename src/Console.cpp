@@ -28,6 +28,7 @@ void Console::main() {
                 citra1.loadFile(file1.getByteFile(), file1.fileType());
                 std::cout << "width: " << citra1.getWidth() << std::endl;
                 std::cout << "height: " << citra1.getHeight() << std::endl;
+                citra1.printKanal(0);
                 break;
             case 3:
                 switch(file1.fileType()) {
