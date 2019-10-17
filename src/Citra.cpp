@@ -8,6 +8,7 @@
 Citra::Citra() {
     this->width = 0;
     this->height = 0;
+    this->maxValue = 0;
 }
 
 void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
@@ -18,14 +19,19 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
     std::vector<std::vector<unsigned char>> bufferCitra;
     bool flagWidth = true;
     bool flagHeight = true;
+    bool flagMax = true;
     bool widthFound = false;
     bool heightFound = false;
+    bool maxFound = false;
     int startWidth = 2;
     int endWidth;
     int startHeight;
     int endHeight;
     int startData;
+    int startMax;
+    int endMax;
     int counter = 0;
+    unsigned char tempNum;
     std::cout << "Konstruktor\n";
     std::cout << "filetype: " << fileType << std::endl;
     switch(fileType) {
@@ -71,7 +77,7 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
             counter = 0;
             for(int i = startData;i<byteFile.size();i++) {
                 if ((byteFile.at(i) == '0') || (byteFile.at(i) == '1')) {
-                    buffer.push_back(byteFile.at(i));
+                    buffer.push_back(byteFile.at(i) - '0');
                     counter++;
                     if (counter == this->getWidth()) {
                         counter = 0;
@@ -160,7 +166,75 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
             // this->kanal.push_back(bufferCitra);
             break;
         case 2:
-            std::cout << "\n";
+            for(int i = startWidth;i<byteFile.size();i++) {
+                if (flagWidth) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        startWidth = i;
+                        buffer.push_back(byteFile.at(i));
+                        widthFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (widthFound)) {
+                        endWidth = i;
+                        flagWidth = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->width = this->width * 10;
+                this->width = this->width + (buffer.at(i) - 48);
+            }
+            startHeight = endWidth + 1;
+            buffer.clear();
+            for(int i = startHeight;i<byteFile.size()-1;i++) {
+                if (flagHeight) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        buffer.push_back(byteFile.at(i));
+                        heightFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (heightFound)) {
+                        endHeight = i;
+                        flagHeight = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->height = this->height * 10;
+                this->height = this->height + (buffer.at(i) - 48);
+            }
+            startMax = endHeight + 1;
+            buffer.clear();
+            for(int i = startMax;i<byteFile.size()-1;i++) {
+                if (flagMax) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        buffer.push_back(byteFile.at(i));
+                        maxFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (maxFound)) {
+                        endMax = i+1;
+                        flagMax = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->maxValue = this->maxValue * 10;
+                this->maxValue = this->maxValue + (buffer.at(i) - 48);
+            }
+            startData = endMax + 1;
+            // buffer.clear();
+            // counter = 0;
+            // for(int i = startData;i<byteFile.size();i++) {
+            //     if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+            //         buffer.push_back(byteFile.at(i));
+            //     } else {
+            //         counter++;
+            //         if (counter == this->getWidth()) {
+            //             counter = 0;
+            //             bufferCitra.push_back(buffer);
+            //             buffer.clear();
+            //         }
+            //     }
+            // }
+            // this->kanal.push_back(bufferCitra);
             break;
         case 3:
             std::cout << "\n";
@@ -185,7 +259,7 @@ void Citra::printKanal(int pos) {
     if (this->kanal.size() > pos) {
         for(int i = 0; i < this->getHeight(); i++) {
             for(int j = 0; j < this->getWidth(); j++) {
-                std::cout << kanal.at(pos).at(i).at(j) << " ";
+                std::cout << +kanal.at(pos).at(i).at(j) << " ";
             }
             std::cout << "\n";
         }
