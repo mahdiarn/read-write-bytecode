@@ -32,7 +32,7 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
     }
     switch(fileType) {
         case 1:
-            this->max_value = 1;
+            this->maxValue = 1;
             for(int i = startWidth;i<byteFile.size();i++) {
                 if (flagWidth) {
                     if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
@@ -83,7 +83,6 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
                 }
             }
             this->kanal.push_back(bufferCitra);
-
             break;
         case 2:
             std::cout << "\n";
@@ -124,4 +123,8 @@ unsigned long long Citra::getWidth() {
 
 unsigned long long Citra::getHeight() {
     return this->height;
+}
+
+unsigned int Citra::getMaxValue() {
+    return this->maxValue;
 }
