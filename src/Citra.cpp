@@ -219,22 +219,38 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
                 this->maxValue = this->maxValue * 10;
                 this->maxValue = this->maxValue + (buffer.at(i) - 48);
             }
-            startData = endMax + 1;
-            // buffer.clear();
-            // counter = 0;
-            // for(int i = startData;i<byteFile.size();i++) {
-            //     if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
-            //         buffer.push_back(byteFile.at(i));
-            //     } else {
-            //         counter++;
-            //         if (counter == this->getWidth()) {
-            //             counter = 0;
-            //             bufferCitra.push_back(buffer);
-            //             buffer.clear();
-            //         }
-            //     }
-            // }
-            // this->kanal.push_back(bufferCitra);
+            startData = endMax;
+            buffer.clear();
+            tempNum = 0;
+            counter = 0;
+            for(int i = startData;i<byteFile.size();i++) {
+                if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                    tempNum *= 10;
+                    tempNum += (byteFile.at(i) - '0');
+                    if (i == (byteFile.size()-1)) {
+                        buffer.push_back(tempNum);
+                        tempNum = 0;
+                        counter++;
+                        if (counter == this->getWidth()) {
+                            counter = 0;
+                            bufferCitra.push_back(buffer);
+                            buffer.clear();
+                        }
+                    }
+                } else {
+                    if ((byteFile.at(i-1) >= '0') && (byteFile.at(i-1) <= '9')) {
+                        buffer.push_back(tempNum);
+                        tempNum = 0;
+                        counter++;
+                        if (counter == this->getWidth()) {
+                            counter = 0;
+                            bufferCitra.push_back(buffer);
+                            buffer.clear();
+                        }
+                    }
+                }
+            }
+            this->kanal.push_back(bufferCitra);
             break;
         case 3:
             std::cout << "\n";
