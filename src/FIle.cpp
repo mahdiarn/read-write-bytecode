@@ -35,8 +35,10 @@ void File::printBytes (bool numeric) {
 
 int File::fileType() {
     std::vector<unsigned char>::iterator ptr; 
-    if (((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '1')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '4'))) {
+    if ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '1')) {
         return 1;
+    } else if ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '4')) {
+        return 11;
     } else if (((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '2')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '5'))){
         return 2;
     } else if(((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '3')) || ((this->byteFile.at(0) == 'P') && (this->byteFile.at(1) == '6'))) {
