@@ -3,10 +3,13 @@
 
 #include "Console.h"
 #include "File.h"
+#include "Citra.h"
 
 void Console::main() {
     std::string command = "";
     File file1;
+    Citra citra1;
+
     std::string filename = "";
     int selected = 0;
     do {
@@ -22,6 +25,8 @@ void Console::main() {
                 std::cout << "Masukkan nama file:\n";
                 std::cin >> filename;
                 file1.newFile(filename);
+                citra1.loadFile(file1.getByteFile(), file1.fileType());
+                std::cout << "width: " << citra1.getWidth() << std::endl;
                 break;
             case 3:
                 switch(file1.fileType()) {
