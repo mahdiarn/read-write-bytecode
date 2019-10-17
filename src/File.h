@@ -13,4 +13,5 @@ class File {
         unsigned long long int fileSize();
         void printFileSize();
         void newFile(std::string filename);
+        std::vector<unsigned char> getByteFile();
 }; 

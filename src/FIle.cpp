@@ -74,3 +74,7 @@ void File::newFile(std::string filename) {
         this->byteFile = buffer;
     } else std::cout << "Unable to open file";
 }
+
+std::vector<unsigned char> File::getByteFile(){
+    return this->byteFile;
+}
