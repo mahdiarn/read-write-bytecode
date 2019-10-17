@@ -29,6 +29,7 @@ void Console::main() {
                 std::cout << "width: " << citra1.getWidth() << std::endl;
                 std::cout << "height: " << citra1.getHeight() << std::endl;
                 citra1.printKanal(0);
+                std::cout << "max value: " << citra1.getMaxValue() << std::endl;
                 break;
             case 3:
                 switch(file1.fileType()) {
