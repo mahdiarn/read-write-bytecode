@@ -12,8 +12,14 @@ Citra::Citra() {
 
 void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
     std::vector<unsigned char> buffer;
-    bool flag = true;
+    bool flagWidth = true;
+    bool flagHeight = true;
     bool widthFound = false;
+    bool heightFound = false;
+    int startWidth = 2;
+    int endWidth;
+    int startHeight;
+    int endHeight;
     std::cout << "Konstruktor\n";
     std::cout << "filetype: " << fileType << std::endl;
     for (int i = 0; i<byteFile.size(); i++) {
@@ -23,18 +29,16 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
     }
     switch(fileType) {
         case 1:
-            int start;
-            int end;
-            for(int i = 2;i<byteFile.size();i++) {
-                if (flag){
+            for(int i = startWidth;i<byteFile.size();i++) {
+                if (flagWidth) {
                     if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
-                        start = i;
+                        startWidth = i;
                         buffer.push_back(byteFile.at(i));
                         widthFound = true;
                     }
                     if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (widthFound)) {
-                        end = i;
-                        flag = false;
+                        endWidth = i;
+                        flagWidth = false;
                     }
                 }
             }
@@ -42,6 +46,25 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
                 this->width = this->width * 10;
                 this->width = this->width + (buffer.at(i) - 48);
             }
+            startHeight = endWidth + 1;
+            buffer.clear();
+            for(int i = startHeight;i<byteFile.size()-1;i++) {
+                if (flagHeight) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        buffer.push_back(byteFile.at(i));
+                        heightFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (heightFound)) {
+                        endHeight = i;
+                        flagHeight = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->height = this->height * 10;
+                this->height = this->height + (buffer.at(i) - 48);
+            }
+
             break;
         case 2:
             std::cout << "\n";
