@@ -6,6 +6,7 @@ class Citra {
     private:
         std::vector<std::vector<std::vector<unsigned char>>> kanal;
         unsigned long long height, width;
+        unsigned int max_value;
     public:
         Citra();
         void loadFile(std::vector<unsigned char> byteFile, int fileType);

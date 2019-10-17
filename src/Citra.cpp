@@ -32,6 +32,7 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
     }
     switch(fileType) {
         case 1:
+            this->max_value = 1;
             for(int i = startWidth;i<byteFile.size();i++) {
                 if (flagWidth) {
                     if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
