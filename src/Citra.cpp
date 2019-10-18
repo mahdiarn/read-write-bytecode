@@ -517,7 +517,7 @@ void Citra::translate(unsigned char x, unsigned char y) {
     for (int i = 0; i < this->kanal.size(); i++) {
         for (int k = 0; k < this->getWidth(); k++) {
             int tempy[this->getHeight()];
-            for (int j = 0; k < this->getHeight(); j++) {
+            for (int j = 0; j < this->getHeight(); j++) {
                 if (j < y) {
                     tempy[j] = 0;
                 } else {
@@ -526,6 +526,17 @@ void Citra::translate(unsigned char x, unsigned char y) {
             }
             for (int j = 0; j < this->getHeight(); j++) {
                 this->kanal.at(i).at(j).at(k) = (unsigned char) tempy[j];
+            }
+        }
+    }
+}
+
+void Citra::notOperation() {
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int k = 0; k < this->getWidth(); k++) {
+            for (int j = 0; j < this->getHeight(); j++) {
+                int temp = (int) !(this->kanal.at(i).at(j).at(k));
+                this->kanal.at(i).at(j).at(k) = (unsigned char) temp;
             }
         }
     }
