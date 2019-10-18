@@ -45,6 +45,20 @@ void Console::main() {
                 citra1.generateHistogram();
                 std::cout << "HISTOGRAM\n";
                 citra1.printHistogram();
+                citra1.brigthen(255);
+                std::cout << "RED\n";
+                citra1.printKanal(0);
+                std::cout << "GREEN\n";
+                citra1.printKanal(1);
+                std::cout << "BLUE\n";
+                citra1.printKanal(2);
+                citra1.darken(255);
+                std::cout << "RED\n";
+                citra1.printKanal(0);
+                std::cout << "GREEN\n";
+                citra1.printKanal(1);
+                std::cout << "BLUE\n";
+                citra1.printKanal(2);
                 break;
             case 3:
                 std::cout << "Tipe file: ";
