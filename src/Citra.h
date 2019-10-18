@@ -22,6 +22,7 @@ class Citra {
         void flipY();
         void translate(unsigned char x, unsigned char y);
         void notOperation();
+        void convolution(unsigned char matriks[3][3]);
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();

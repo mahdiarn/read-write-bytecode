@@ -542,6 +542,43 @@ void Citra::notOperation() {
     }
 }
 
+void Citra::convolution(unsigned char matriks[3][3]) {
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int j = 0; j < this->getHeight(); j++) {
+            for (int k = 0; k < this->getWidth(); k++) {
+                if (k != 0 && k != this->getWidth() - 1 && j != 0 && j != this->getHeight() - 1) {
+                    unsigned char temp[3][3];
+                    temp[0][0] = this->kanal.at(i).at(j-1).at(k-1);
+                    temp[0][1] = this->kanal.at(i).at(j-1).at(k);
+                    temp[0][2] = this->kanal.at(i).at(j-1).at(k+1);
+                    temp[1][0] = this->kanal.at(i).at(j).at(k-1);
+                    temp[1][1] = this->kanal.at(i).at(j).at(k);
+                    temp[1][2] = this->kanal.at(i).at(j).at(k+1);
+                    temp[2][0] = this->kanal.at(i).at(j+1).at(k-1);
+                    temp[2][1] = this->kanal.at(i).at(j+1).at(k);
+                    temp[2][2] = this->kanal.at(i).at(j+1).at(k+1);
+
+                    unsigned char sum = 0;
+
+                    for (int y = 0; y < 3; y++) {
+                        for (int x = 0; x < 3; x++) {
+                            sum += (temp[y][x] * matriks[y][x]);
+                        }
+                    }
+
+                    if (sum > 255) {
+                        sum = 255;
+                    } else if (sum < 0) {
+                        sum = 0;
+                    }
+
+                    this->kanal.at(i).at(j).at(k) = sum;
+                }
+            }
+        }
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
