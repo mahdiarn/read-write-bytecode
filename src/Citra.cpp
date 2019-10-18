@@ -404,6 +404,16 @@ void Citra::printKanal(int pos) {
     }
 }
 
+void Citra::inverse() {
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                this->kanal.at(i).at(j).at(k) = this->getMaxValue() - this->kanal.at(i).at(j).at(k);
+            }
+        }
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
