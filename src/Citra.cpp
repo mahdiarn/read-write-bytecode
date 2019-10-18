@@ -472,6 +472,32 @@ void Citra::darken(unsigned char nilai){
     }
 }
 
+void Citra::flipX() {
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int j = 0; j < this->getHeight(); j++) {
+            for (int k = 0; k < this->getWidth(); k++) {
+                int pos = this->getWidth() - 1 - k;
+                int temp = (int) this->kanal.at(i).at(j).at(k);
+                this->kanal.at(i).at(j).at(k) = this->kanal.at(i).at(j).at(pos);
+                this->kanal.at(i).at(j).at(pos) = (unsigned char) temp;
+            }
+        }
+    }
+}
+
+void Citra::flipY() {
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int k = 0; k < this->getWidth(); k++) {
+            for (int j = 0; j < this->getHeight(); j++) {
+                int pos = this->getHeight() - 1 - j;
+                int temp = (int) this->kanal.at(i).at(j).at(k);
+                this->kanal.at(i).at(j).at(k) = this->kanal.at(i).at(pos).at(k);
+                this->kanal.at(i).at(pos).at(k) = (unsigned char) temp;
+            }
+        }
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
