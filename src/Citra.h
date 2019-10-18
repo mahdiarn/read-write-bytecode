@@ -16,6 +16,8 @@ class Citra {
         void inverse();
         void generateHistogram();
         void printHistogram();
+        void brigthen(unsigned char nilai);
+        void darken(unsigned char nilai);
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
