@@ -579,6 +579,22 @@ void Citra::convolution(unsigned char matriks[3][3]) {
     }
 }
 
+void Citra::sharpen(unsigned char options) {
+    if (options == 1) {
+        unsigned char matriks[3][3];
+        matriks[0][0] = -1;
+        matriks[0][1] = -1;
+        matriks[0][2] = -1;
+        matriks[1][0] = -1;
+        matriks[1][1] = 9;
+        matriks[1][2] = -1;
+        matriks[2][0] = -1;
+        matriks[2][1] = -1;
+        matriks[2][2] = -1;
+        this->convolution(matriks);
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
