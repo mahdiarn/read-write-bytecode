@@ -475,7 +475,7 @@ void Citra::darken(unsigned char nilai){
 void Citra::flipX() {
     for (int i = 0; i < this->kanal.size(); i++) {
         for (int j = 0; j < this->getHeight(); j++) {
-            for (int k = 0; k < this->getWidth(); k++) {
+            for (int k = 0; k < this->getWidth() / 2; k++) {
                 int pos = this->getWidth() - 1 - k;
                 int temp = (int) this->kanal.at(i).at(j).at(k);
                 this->kanal.at(i).at(j).at(k) = this->kanal.at(i).at(j).at(pos);
@@ -488,11 +488,44 @@ void Citra::flipX() {
 void Citra::flipY() {
     for (int i = 0; i < this->kanal.size(); i++) {
         for (int k = 0; k < this->getWidth(); k++) {
-            for (int j = 0; j < this->getHeight(); j++) {
+            for (int j = 0; j < this->getHeight() / 2; j++) {
                 int pos = this->getHeight() - 1 - j;
                 int temp = (int) this->kanal.at(i).at(j).at(k);
                 this->kanal.at(i).at(j).at(k) = this->kanal.at(i).at(pos).at(k);
                 this->kanal.at(i).at(pos).at(k) = (unsigned char) temp;
+            }
+        }
+    }
+}
+
+void Citra::translate(unsigned char x, unsigned char y) {
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int j = 0; j < this->getHeight(); j++) {
+            int tempx[this->getWidth()];
+            for (int k = 0; k < this->getWidth(); k++) {
+                if (k < x) {
+                    tempx[k] = 0;
+                } else {
+                    tempx[k] = (int) this->kanal.at(i).at(j).at(k-x);
+                }
+            }
+            for (int k = 0; k < this->getWidth(); k++) {
+                this->kanal.at(i).at(j).at(k) = (unsigned char) tempx[k];
+            }
+        }
+    }
+    for (int i = 0; i < this->kanal.size(); i++) {
+        for (int k = 0; k < this->getWidth(); k++) {
+            int tempy[this->getHeight()];
+            for (int j = 0; k < this->getHeight(); j++) {
+                if (j < y) {
+                    tempy[j] = 0;
+                } else {
+                    tempy[j] = (int) this->kanal.at(i).at(j-y).at(k);
+                }
+            }
+            for (int j = 0; j < this->getHeight(); j++) {
+                this->kanal.at(i).at(j).at(k) = (unsigned char) tempy[j];
             }
         }
     }

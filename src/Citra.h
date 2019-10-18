@@ -20,6 +20,7 @@ class Citra {
         void darken(unsigned char nilai);
         void flipX();
         void flipY();
+        void translate(unsigned char x, unsigned char y);
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
