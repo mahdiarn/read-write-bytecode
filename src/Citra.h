@@ -15,4 +15,5 @@ class Citra {
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
+        unsigned int getKanalSize();
 };

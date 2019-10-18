@@ -415,3 +415,7 @@ unsigned long long Citra::getHeight() {
 unsigned int Citra::getMaxValue() {
     return this->maxValue;
 }
+
+unsigned int Citra::getKanalSize() {
+    return (unsigned int)this->kanal.size();
+}
