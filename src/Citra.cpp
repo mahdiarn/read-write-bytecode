@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "Citra.h"
 #include "File.h"
@@ -414,6 +415,35 @@ void Citra::inverse() {
     }
 }
 
+void Citra::generateHistogram() {
+    if (this->getKanalSize() > 0) {
+        this->histogram.resize(this->getKanalSize());
+        for(int i=0;i<this->histogram.size();i++) {
+            this->histogram.at(i).resize(this->getMaxValue()+1);
+            for(int j=0;j<this->histogram.at(i).size();j++) {
+                std::fill(this->histogram.at(i).begin(),this->histogram.at(i).end(),0);
+            }
+        }
+        std::cout << "a\n";
+        for(int i=0;i<this->getKanalSize();i++) {
+            for(int j = 0; j < this->getHeight(); j++) {
+                for(int k = 0; k < this->getWidth(); k++) {
+                    this->histogram.at(i).at(this->kanal.at(i).at(j).at(k))++;
+                }
+            }
+        }
+    }
+}
+
+void Citra::printHistogram() {
+    for (int i=0;i<this->getHistogramSize();i++) {
+        for(int j = 0; j < this->histogram.at(i).size(); j++) {
+            std::cout << this->histogram.at(i).at(j) << " ";
+        }
+        std::cout << "\n";
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
@@ -428,4 +458,8 @@ unsigned int Citra::getMaxValue() {
 
 unsigned int Citra::getKanalSize() {
     return (unsigned int)this->kanal.size();
+}
+
+unsigned int Citra::getHistogramSize() {
+    return (unsigned int)this->histogram.size();
 }

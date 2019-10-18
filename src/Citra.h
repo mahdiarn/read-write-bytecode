@@ -7,14 +7,18 @@ class Citra {
         std::vector<std::vector<std::vector<unsigned char>>> kanal;
         unsigned long long height, width;
         unsigned int maxValue;
+        std::vector<std::vector<unsigned int>> histogram;
     public:
         Citra();
         void loadFile(std::vector<unsigned char> byteFile, int fileType);
         void printCitra();
         void printKanal(int pos);
         void inverse();
+        void generateHistogram();
+        void printHistogram();
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
         unsigned int getKanalSize();
+        unsigned int getHistogramSize();
 };
