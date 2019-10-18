@@ -253,7 +253,129 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
             this->kanal.push_back(bufferCitra);
             break;
         case 3:
-            std::cout << "\n";
+            for(int i = startWidth;i<byteFile.size();i++) {
+                if (flagWidth) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        startWidth = i;
+                        buffer.push_back(byteFile.at(i));
+                        widthFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (widthFound)) {
+                        endWidth = i;
+                        flagWidth = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->width = this->width * 10;
+                this->width = this->width + (buffer.at(i) - 48);
+            }
+            startHeight = endWidth + 1;
+            buffer.clear();
+            for(int i = startHeight;i<byteFile.size()-1;i++) {
+                if (flagHeight) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        buffer.push_back(byteFile.at(i));
+                        heightFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (heightFound)) {
+                        endHeight = i;
+                        flagHeight = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->height = this->height * 10;
+                this->height = this->height + (buffer.at(i) - 48);
+            }
+            startMax = endHeight + 1;
+            buffer.clear();
+            for(int i = startMax;i<byteFile.size()-1;i++) {
+                if (flagMax) {
+                    if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                        buffer.push_back(byteFile.at(i));
+                        maxFound = true;
+                    }
+                    if (((byteFile.at(i+1) == 0x0a) || (byteFile.at(i+1) == 0x20)) && (maxFound)) {
+                        endMax = i+1;
+                        flagMax = false;
+                    }
+                }
+            }
+            for(int i = 0;i<buffer.size();i++) {
+                this->maxValue = this->maxValue * 10;
+                this->maxValue = this->maxValue + (buffer.at(i) - 48);
+            }
+            startData = endMax;
+            buffer.clear();
+            tempNum = 0;
+            counter = 0;
+            for(int i = startData;i<byteFile.size();i++) {
+                if ((byteFile.at(i) >= '0') && (byteFile.at(i) <= '9')) {
+                    tempNum *= 10;
+                    tempNum += (byteFile.at(i) - '0');
+                    if (i == (byteFile.size()-1)) {
+                        buffer.push_back(tempNum);
+                        tempNum = 0;
+                        // counter++;
+                        // if (counter == this->getWidth()) {
+                        //     counter = 0;
+                        //     bufferCitra.push_back(buffer);
+                        //     buffer.clear();
+                        // }
+                    }
+                } else {
+                    if ((byteFile.at(i-1) >= '0') && (byteFile.at(i-1) <= '9')) {
+                        buffer.push_back(tempNum);
+                        tempNum = 0;
+                        // counter++;
+                        // if (counter == this->getWidth()) {
+                        //     counter = 0;
+                        //     bufferCitra.push_back(buffer);
+                        //     buffer.clear();
+                        // }
+                    }
+                }
+            }
+            std::cout << "Panjang buffer: " << buffer.size() << std::endl;
+            for (int i = 0;i<buffer.size();i++) {
+                std::cout << +buffer.at(i) << " ";
+            }
+            this->kanal.resize(3);
+            for(int j = 0;j<3;j++) {
+                tempNum = 0;
+                counter = 0;
+                bufferCitra.clear();
+                bufferCitra.resize(this->getHeight());
+                for (int i = 0;i<buffer.size();i++) {
+                    // std::cout << +buffer.at(i) << " ";
+                    if ((i % 3 == 0) && (j==0)) {
+                        bufferCitra.at(tempNum).push_back(buffer.at(i));
+                        counter++;
+                    } else if ((i % 3 == 1) && (j==1)) {
+                        bufferCitra.at(tempNum).push_back(buffer.at(i));
+                        counter++;
+                    } else if ((i % 3 == 2) && (j==2)) {
+                        bufferCitra.at(tempNum).push_back(buffer.at(i));
+                        counter++;
+                    }
+                    if (counter == this->getWidth()) {
+                        counter = 0;
+                        tempNum++;
+                    }
+                }
+                this->kanal.at(j) = bufferCitra;
+            }
+            // this->kanal.resize(3);
+            // for(int i=0;i<bufferCitra.size();i++) {
+            //     if (i % 3 == 0 ) {
+            //         this->kanal.at(0).push_back(bufferCitra.at(i));
+            //     } else if (i % 3 == 1) {
+            //         this->kanal.at(1).push_back(bufferCitra.at(i));
+            //     } else {
+            //         this->kanal.at(2).push_back(bufferCitra.at(i));
+            //     }
+            // }
             break;
         case 4:
             std::cout << "\n";
