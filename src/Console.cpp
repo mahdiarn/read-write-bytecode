@@ -37,6 +37,7 @@ void Console::main() {
                 citra1.printKanal(2);
                 break;
             case 3:
+                std::cout << "Tipe file: ";
                 switch(file1.fileType()) {
                     case 1:
                         std::cout << "PBM\n";
@@ -55,9 +56,20 @@ void Console::main() {
                         std::cout << "RAW\n";
                         break;
                 }
+                std::cout << "Ukuran file: ";
+                file1.printFileSize();
+                if (citra1.getMaxValue() == 1) {
+                    std::cout << "Citra biner\n";
+                } else {
+                    if (citra1.getKanalSize() == 1) {
+                        std::cout << "Citra grayscale\n";
+                    } else {
+                        std::cout << "Citra berwarna\n";
+                    }
+                }
                 break;
             case 4:
-                file1.printFileSize();
+                std::cout << "Reserved\n";
                 break;
             default:
                 std::cout << "Unknown Command\n";
@@ -71,10 +83,8 @@ void Console::setCommand(std::string input) {
         this->commandCode = 1;
     } else if (input.compare("add") == 0) {
         this->commandCode = 2;
-    } else if (input.compare("show-file-type") == 0) {
+    } else if (input.compare("show-info") == 0) {
         this->commandCode = 3;
-    } else if (input.compare("show-file-size") == 0) {
-        this->commandCode = 4;
     } else {
         this->commandCode = 0;
     }
