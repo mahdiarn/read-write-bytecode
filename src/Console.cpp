@@ -28,8 +28,13 @@ void Console::main() {
                 citra1.loadFile(file1.getByteFile(), file1.fileType());
                 std::cout << "width: " << citra1.getWidth() << std::endl;
                 std::cout << "height: " << citra1.getHeight() << std::endl;
-                citra1.printKanal(0);
                 std::cout << "max value: " << citra1.getMaxValue() << std::endl;
+                std::cout << "RED\n";
+                citra1.printKanal(0);
+                std::cout << "GREEN\n";
+                citra1.printKanal(1);
+                std::cout << "BLUE\n";
+                citra1.printKanal(2);
                 break;
             case 3:
                 switch(file1.fileType()) {
