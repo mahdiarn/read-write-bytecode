@@ -444,6 +444,35 @@ void Citra::printHistogram() {
     }
 }
 
+void Citra::minImg( Citra matriks) {
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                if (k < matriks.getWidth() && j < matriks.getHeight() && i < matriks.getHeight()){
+                    int temp = (int) this->kanal.at(i).at(j).at(k);
+                    temp += (int) matriks.kanal.at(i).at(j).at(k);
+                    this->kanal.at(i).at(j).at(k) = (unsigned char)temp;
+                }
+            }
+        }
+    }
+}
+
+void Citra::plusImg( Citra matriks) {
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                if (k < matriks.getWidth() && j < matriks.getHeight() && i < matriks.getHeight()){
+                    int temp = (int) this->kanal.at(i).at(j).at(k);
+                    temp -= (int) matriks.kanal.at(i).at(j).at(k);
+                    this->kanal.at(i).at(j).at(k) = (unsigned char)temp;
+                }
+            }
+        }
+    }
+}
+
+
 void Citra::brigthen(unsigned char nilai){
     for(int i=0;i<this->kanal.size();i++) {
         for(int j = 0; j < this->getHeight(); j++) {
