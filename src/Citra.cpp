@@ -472,6 +472,30 @@ void Citra::plusImg( Citra matriks) {
     }
 }
 
+void Citra::andImg( Citra matriks) {
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                if (k < matriks.getWidth() && j < matriks.getHeight() && i < matriks.getHeight()){
+                    this->kanal.at(i).at(j).at(k) = (unsigned char) (this->kanal.at(i).at(j).at(k) & matriks.kanal.at(i).at(j).at(k));
+                }
+            }
+        }
+    }
+}
+
+void Citra::orImg( Citra matriks) {
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                if (k < matriks.getWidth() && j < matriks.getHeight() && i < matriks.getHeight()){
+                    this->kanal.at(i).at(j).at(k) = (unsigned char) (this->kanal.at(i).at(j).at(k) | matriks.kanal.at(i).at(j).at(k));
+                }
+            }
+        }
+    }
+}
+
 
 void Citra::brigthen(unsigned char nilai){
     for(int i=0;i<this->kanal.size();i++) {
