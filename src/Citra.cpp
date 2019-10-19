@@ -624,6 +624,19 @@ void Citra::sharpen(unsigned char options) {
     }
 }
 
+void Citra::rgbToGrayscale() {
+    if (this->getKanalSize() == 3) {
+        std::vector<std::vector<std::vector<unsigned char>>> kanalGrayscale;
+        kanalGrayscale.push_back(this->kanal.at(0));
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                kanalGrayscale.at(0).at(j).at(k) = (unsigned char)((this->kanal.at(0).at(j).at(k) * 0.21)+(this->kanal.at(1).at(j).at(k) * 0.72)+(this->kanal.at(2).at(j).at(k) * 0.07));
+            }
+        }
+        this->kanal = kanalGrayscale;
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
