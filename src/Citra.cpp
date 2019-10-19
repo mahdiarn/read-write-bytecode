@@ -379,8 +379,21 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
             // }
             break;
         case 4:
-            std::cout << "\n";
+        {
+            this->width += (int)(byteFile.at(18));
+            this->width += (int)(byteFile.at(19) << 8);
+            this->width += (int)(byteFile.at(20) << 16);
+            this->width += (int)(byteFile.at(21) << 24);
+            this->height += (int)(byteFile.at(22));
+            this->height += (int)(byteFile.at(23) << 8);
+            this->height += (int)(byteFile.at(24) << 16);
+            this->height += (int)(byteFile.at(25) << 24);
+            this->bmpBitCount = 0;
+            this->bmpBitCount += (unsigned int)(byteFile.at(28));
+            this->bmpBitCount += (unsigned int)(byteFile.at(29) << 8);
+            std::cout << this->width << std::endl;
             break;
+        }
         case 0:
         default:
             std::cout << "\n";

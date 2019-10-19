@@ -7,6 +7,7 @@ class Citra {
         std::vector<std::vector<std::vector<unsigned char>>> kanal;
         unsigned long long height, width;
         unsigned int maxValue;
+        unsigned int bmpBitCount;
         std::vector<std::vector<unsigned int>> histogram;
     public:
         Citra();
