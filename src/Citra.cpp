@@ -689,6 +689,17 @@ void Citra::rgbToGrayscale() {
     }
 }
 
+void Citra::grayscaleToBinary() {
+    if (this->getKanalSize() == 1) {
+        for(int j = 0; j < this->getHeight(); j++) {
+            for(int k = 0; k < this->getWidth(); k++) {
+                (this->kanal.at(0).at(j).at(k) <= 127) ? this->kanal.at(0).at(j).at(k) = 0 : this->kanal.at(0).at(j).at(k) = 0;
+            }
+        }
+        this->maxValue = 1;
+    }
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
