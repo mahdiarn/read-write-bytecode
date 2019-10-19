@@ -18,6 +18,8 @@ class Citra {
         void printHistogram();
         void minImg(Citra);
         void plusImg(Citra);
+        void andImg(Citra);
+        void orImg(Citra);
         void brigthen(unsigned char nilai);
         void darken(unsigned char nilai);
         void flipX();
