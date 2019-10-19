@@ -32,6 +32,8 @@ class Citra {
         void sharpen(unsigned char options);
         void rgbToGrayscale();
         void grayscaleToBinary();
+        void zoomIn(int scaleX, int scaleY);
+        void zoomOut(int scaleX, int scaleY);
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
