@@ -700,6 +700,31 @@ void Citra::grayscaleToBinary() {
     }
 }
 
+void Citra::zoomIn(int scaleX, int scaleY) {
+    std::vector<std::vector<std::vector<unsigned char>>> kanalTemp = this->kanal;
+    int newWidth = this->getWidth() * scaleX;
+    int newHeight = this->getHeight() * scaleY;
+    for(int i=0;i<kanalTemp.size();i++) {
+        for(int j=0;j<kanalTemp.at(i).size();j++) {
+            kanalTemp.at(i).at(j).resize(newWidth);
+        }
+        kanalTemp.at(i).resize(newHeight);
+    }
+    for(int i=0;i<this->kanal.size();i++) {
+        for(int j=0;j<this->getHeight();j++) {
+            for(int k=0;k<this->getWidth();k++) {
+                kanalTemp.at(i).at(j * 2).at(k * 2) = this->kanal.at(i).at(j).at(k);
+                kanalTemp.at(i).at(j * 2).at((k+1) * 2) = this->kanal.at(i).at(j).at(k);
+                kanalTemp.at(i).at((j+1) * 2).at(k * 2) = this->kanal.at(i).at(j).at(k);
+                kanalTemp.at(i).at((j+1) * 2).at((k+1) * 2) = this->kanal.at(i).at(j).at(k);
+            }
+        }
+    }
+    this->kanal = kanalTemp;
+    this->height = newHeight;
+    this->width = newWidth;
+}
+
 unsigned long long Citra::getWidth() {
     return this->width;
 }
