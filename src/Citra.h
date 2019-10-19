@@ -22,6 +22,8 @@ class Citra {
         void orImg(Citra);
         void brigthen(unsigned char nilai);
         void darken(unsigned char nilai);
+        void calibrateBrightness(unsigned char nilai);
+        void normalizeBrightness(unsigned char nilai);
         void flipX();
         void flipY();
         void translate(unsigned char x, unsigned char y);
