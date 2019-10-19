@@ -26,6 +26,7 @@ class Citra {
         void notOperation();
         void convolution(unsigned char matriks[3][3]);
         void sharpen(unsigned char options);
+        void rgbToGrayscale();
         unsigned long long getWidth();
         unsigned long long getHeight();
         unsigned int getMaxValue();
