@@ -379,8 +379,72 @@ void Citra::loadFile(std::vector<unsigned char> byteFile, int fileType) {
             // }
             break;
         case 4:
-            std::cout << "\n";
+        {
+            this->width += (int)(byteFile.at(18));
+            this->width += (int)(byteFile.at(19) << 8);
+            this->width += (int)(byteFile.at(20) << 16);
+            this->width += (int)(byteFile.at(21) << 24);
+            this->height += (int)(byteFile.at(22));
+            this->height += (int)(byteFile.at(23) << 8);
+            this->height += (int)(byteFile.at(24) << 16);
+            this->height += (int)(byteFile.at(25) << 24);
+            this->bmpBitCount = 0;
+            this->bmpBitCount += (unsigned int)(byteFile.at(28));
+            this->bmpBitCount += (unsigned int)(byteFile.at(29) << 8);
+
+            if (this->bmpBitCount == 24) {
+                this->kanal.resize(3);
+                for(int j = 0;j<3;j++) {
+                    tempNum = 0;
+                    counter = 0;
+                    bufferCitra.clear();
+                    bufferCitra.resize(this->getHeight());
+                    for (int i = 55;i<byteFile.size();i++) {
+                        // std::cout << +buffer.at(i) << " ";
+                        if (((i-55) % 3 == 0) && (j==0)) {
+                            bufferCitra.at(tempNum).push_back(byteFile.at(i));
+                            counter++;
+                        } else if (((i-55) % 3 == 1) && (j==1)) {
+                            bufferCitra.at(tempNum).push_back(byteFile.at(i));
+                            counter++;
+                        } else if (((i-55) % 3 == 2) && (j==2)) {
+                            bufferCitra.at(tempNum).push_back(byteFile.at(i));
+                            counter++;
+                        }
+                        if (counter == this->getWidth()) {
+                            counter = 0;
+                            tempNum++;
+                        }
+                    }
+                    std::reverse(bufferCitra.begin(),bufferCitra.end());
+                    for (int i = 0; i < bufferCitra.size();i++) {
+                        std::reverse(bufferCitra.at(i).begin(),bufferCitra.at(i).end());
+                    }
+                    this->kanal.at(j) = bufferCitra;
+                }
+            } else if (this->bmpBitCount == 8) {
+                int i = byteFile.size()-2;
+                counter = 0;
+                tempNum = 0;
+                bufferCitra.clear();
+                buffer.clear();
+                do{
+                    buffer.push_back( byteFile.at(i) );
+                    tempNum++;
+                    if(tempNum == this->getWidth()) {
+                        tempNum = 0;
+                        std::reverse(buffer.begin(),buffer.end());
+                        bufferCitra.push_back(buffer);
+                        buffer.clear();
+                    }
+                    counter++;
+                    i--;
+                 } while     (counter < (this->getWidth() * this->getHeight()));
+                this->kanal.push_back(bufferCitra);
+            }
+            std::cout << this->width << std::endl;
             break;
+        }
         case 0:
         default:
             std::cout << "\n";

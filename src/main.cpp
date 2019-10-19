@@ -12,8 +12,5 @@ int main(int argc, char **argv)
 {
     Console console;
     console.main();
-    // File file1("../examples/lena_gray.bmp");
-    // file1.printBytes();
-    // file1.printFileType();
     return 0;
 }
