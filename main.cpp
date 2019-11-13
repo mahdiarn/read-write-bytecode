@@ -9,10 +9,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    QImage img;
-    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\examples\\lena_gray.bmp");
-
+    MainWindow m;
+    m.resize(1280,720);
+    m.show();
     /*
     int matriks[3][3];
     matriks[0][0] = -1;
@@ -60,73 +59,11 @@ int main(int argc, char *argv[])
 
     /*
     for (int j = 0; j < img.height(); j++) {
-        for (int i = 0; i < img.width() / 2; i++) {
-            int pos = img.width() - i - 1;
-            int temp = img.pixelIndex(i,j);
-            img.setPixel(i,j,img.pixelIndex(pos,j));
-            img.setPixel(pos,j,temp);
-        }
-    }
-    */
-
-    /*
-    for (int j = 0; j < img.height() / 2; j++) {
-        for (int i = 0; i < img.width(); i++) {
-            int pos = img.height() - j - 1;
-            int temp = img.pixelIndex(i,j);
-            img.setPixel(i,j,img.pixelIndex(i,pos));
-            img.setPixel(i,pos,temp);
-        }
-    }
-    */
-
-    /*
-    for (int j = 0; j < img.height(); j++) {
-        for (int i = 0; i < img.width(); i++) {
-            if (img.pixelIndex(i,j) <= 127) {
-                img.setPixel(i,j,0);
-            } else {
-                img.setPixel(i,j,255);
-            }
-        }
-    }
-    */
-
-    /*
-    for (int j = 0; j < img.height(); j++) {
-        for (int i = 0; i < img.width(); i++) {
-            img.setPixel(i,j,255-img.pixelIndex(i,j));
-        }
-    }
-    */
-
-    /*
-    for (int j = 0; j < img.height(); j++) {
         for (int i = 0; i < img.width(); i++) {
             img.setPixelColor(i,j,* new QColor(img.pixelColor(i,j).red() * 0.21,img.pixelColor(i,j).green() * 0.72,img.pixelColor(i,j).blue() * 0.07));
         }
     }
     */
-
-    /*
-    int x = 20;
-    int y;
-
-    for (int j = 0; j < img.height(); j++) {
-        int tempx[img.width()];
-        for (int i = 0; i < img.width(); i++) {
-            if (i < x) {
-                tempx[i] = 0;
-            } else {
-                tempx[i] = img.pixelIndex(i,j);
-            }
-        }
-        for (int i = 0; i < img.width(); i++) {
-            img.setPixel(i,j,tempx[i]);
-        }
-    }
-    */
-
 
     /*
     QImage imgZoom;
@@ -145,14 +82,6 @@ int main(int argc, char *argv[])
         }
     }
     */
-
-
-    QLabel lbl;
-    lbl.setPixmap(QPixmap::fromImage(img));
-
-    lbl.show();
-
-
 
     return a.exec();
 }
