@@ -47,6 +47,10 @@ private slots:
 
     void on_rotate_clicked();
 
+    void on_notBtn_clicked();
+
+    void on_saveBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

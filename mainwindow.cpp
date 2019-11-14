@@ -19,6 +19,8 @@ MainWindow::~MainWindow()
 
 QImage img;
 
+const double pi = 3.14159265358979323846;
+
 void MainWindow::on_pushButton_clicked()
 {
     img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\lena.bmp");
@@ -436,7 +438,7 @@ void MainWindow::on_smoothen_clicked()
 void MainWindow::on_rotate_clicked()
 {
     QString degText = ui->rotateDeg->text();
-    int deg = degText == NULL ? 0 : 360-degText.toInt();
+    int deg = degText == NULL ? 0 : degText.toInt();
 
     QImage imgTemp = img;
     for (int j = 0; j < img.height(); j++) {
@@ -444,16 +446,69 @@ void MainWindow::on_rotate_clicked()
             imgTemp.setPixel(i,j,0);
         }
     }
-    int newX,newY;
-    for (int j = 0; j < img.height(); j++) {
-        for (int i = 0; i < img.width(); i++) {
-            newX = (i*cos(deg)) - (j*sin(deg));
-            newY = (i*sin(deg)) + (j*cos(deg));
-            if (newX >= 0 && newY >= 0 && newX < img.width() && newY < img.height()) {
-                imgTemp.setPixel(newX,newY,img.pixelIndex(i,j));
+
+    if (deg % 90 != 0) {
+        int newX,newY;
+        for (int j = 0; j < img.height(); j++) {
+            for (int i = 0; i < img.width(); i++) {
+                newX = (i*cos(deg*pi/180)) - (j*sin(deg*pi/180));
+                newY = (i*sin(deg*pi/180)) + (j*cos(deg*pi/180));
+                if (img.format() == QImage::Format_Indexed8) {
+                    if (newX >= 0 && newY >= 0 && newX < img.width() && newY < img.height()) {
+                        imgTemp.setPixel(newX,newY,img.pixelIndex(i,j));
+                    }
+                } else {
+                    if (newX >= 0 && newY >= 0 && newX < img.width() && newY < img.height()) {
+                        int r = img.pixelColor(i,j).red();
+                        int g = img.pixelColor(i,j).green();
+                        int b = img.pixelColor(i,j).blue();
+                        imgTemp.setPixel(newX,newY,qRgb(r,g,b));
+                    }
+                }
             }
+        }
+    } else {
+        int k;
+        for (int x = 0; x < deg / 90; x++) {
+            for (int i = 0; i < img.width(); i++) {
+                k = img.height() - 1;
+                for (int j = 0; j < img.height(); j++) {
+                    if (img.format() == QImage::Format_Indexed8) {
+                        imgTemp.setPixel(k,i,img.pixelIndex(i,j));
+                    } else {
+                        int r = img.pixelColor(i,j).red();
+                        int g = img.pixelColor(i,j).green();
+                        int b = img.pixelColor(i,j).blue();
+                        imgTemp.setPixel(k,i,qRgb(r,g,b));
+                    }
+                    k--;
+                }
+            }
+            img = imgTemp;
         }
     }
     img = imgTemp;
     onShowImg();
+}
+
+void MainWindow::on_notBtn_clicked()
+{
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            if (img.format() == QImage::Format_Indexed8) {
+                img.setPixel(i,j,255-img.pixelIndex(i,j));
+            } else {
+                int r = 255-img.pixelColor(i,j).red();
+                int g = 255-img.pixelColor(i,j).green();
+                int b = 255-img.pixelColor(i,j).blue();
+                img.setPixel(i,j,qRgb(r,g,b));
+            }
+        }
+    }
+    onShowImg();
+}
+
+void MainWindow::on_saveBtn_clicked()
+{
+    img.save("lena1","BMP");
 }
