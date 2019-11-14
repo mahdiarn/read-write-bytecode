@@ -34,7 +34,13 @@ private slots:
 
     void on_translate_clicked();
 
+    void filterImg(int matriks);
+
     void on_sharpen_clicked();
+
+    void on_grayscale_clicked();
+
+    void on_smoothen_clicked();
 
 private:
     Ui::MainWindow *ui;
