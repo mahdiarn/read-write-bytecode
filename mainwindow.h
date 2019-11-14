@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <vector>
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,13 +37,15 @@ private slots:
 
     void on_translate_clicked();
 
-    void filterImg(int matriks);
+    void filterImg(vector<vector<int>> matriks);
 
     void on_sharpen_clicked();
 
     void on_grayscale_clicked();
 
     void on_smoothen_clicked();
+
+    void on_rotate_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <vector>
+#include <math.h>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -156,34 +160,144 @@ void MainWindow::on_translate_clicked()
     int x = xAxis == NULL ? 0 : xAxis.toInt();
     int y = yAxis == NULL ? 0 : yAxis.toInt();
 
-    if (x != 0) {
+    if (x >= 0) {
         for (int j = 0; j < img.height(); j++) {
-            int tempx[img.width()];
-            for (int i = 0; i < img.width(); i++) {
-                if (i < x) {
-                    tempx[i] = 0;
-                } else {
-                    tempx[i] = img.pixelIndex(i-x,j);
+            if (img.format() == QImage::Format_Indexed8) {
+                int tempx[img.width()];
+                for (int i = 0; i < img.width(); i++) {
+                    if (i < x) {
+                        tempx[i] = 0;
+                    } else {
+                        tempx[i] = img.pixelIndex(i-x,j);
+                    }
+                }
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,tempx[i]);
+                }
+            } else {
+                int tempxr[img.width()];
+                int tempxg[img.width()];
+                int tempxb[img.width()];
+                for (int i = 0; i < img.width(); i++) {
+                    if (i < x) {
+                        tempxr[i] = 0;
+                        tempxg[i] = 0;
+                        tempxb[i] = 0;
+                    } else {
+                        tempxr[i] = img.pixelColor(i-x,j).red();
+                        tempxg[i] = img.pixelColor(i-x,j).green();
+                        tempxb[i] = img.pixelColor(i-x,j).blue();
+                    }
+                }
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,qRgb(tempxr[i],tempxg[i],tempxb[i]));
                 }
             }
-            for (int i = 0; i < img.width(); i++) {
-                img.setPixel(i,j,tempx[i]);
+        }
+    } else {
+        x = img.width() - (x * -1);
+        for (int j = 0; j < img.height(); j++) {
+            if (img.format() == QImage::Format_Indexed8) {
+                int tempx[img.width()];
+                for (int i = 0; i < img.width(); i++) {
+                    if (x < i) {
+                        tempx[i] = 0;
+                    } else {
+                        tempx[i] = img.pixelIndex((img.width()-x-1)+i,j);
+                    }
+                }
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,tempx[i]);
+                }
+            } else {
+                int tempxr[img.width()];
+                int tempxg[img.width()];
+                int tempxb[img.width()];
+                for (int i = 0; i < img.width(); i++) {
+                    if (x < i) {
+                        tempxr[i] = 0;
+                        tempxg[i] = 0;
+                        tempxb[i] = 0;
+                    } else {
+                        tempxr[i] = img.pixelColor((img.width()-x-1)+i,j).red();
+                        tempxg[i] = img.pixelColor((img.width()-x-1)+i,j).green();
+                        tempxb[i] = img.pixelColor((img.width()-x-1)+i,j).blue();
+                    }
+                }
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,qRgb(tempxr[i],tempxg[i],tempxb[i]));
+                }
             }
         }
     }
 
-    if (y != 0) {
+    if (y >= 0) {
         for (int i = 0; i < img.width(); i++) {
-            int tempy[img.height()];
-            for (int j = 0; j < img.height(); j++) {
-                if (j < y) {
-                    tempy[j] = 0;
-                } else {
-                    tempy[j] = img.pixelIndex(i,j-y);
+            if (img.format() == QImage::Format_Indexed8) {
+                int tempy[img.height()];
+                for (int j = 0; j < img.height(); j++) {
+                    if (j < y) {
+                        tempy[j] = 0;
+                    } else {
+                        tempy[j] = img.pixelIndex(i,j-y);
+                    }
+                }
+                for (int j = 0; j < img.height(); j++) {
+                    img.setPixel(i,j,tempy[j]);
+                }
+            } else {
+                int tempyr[img.height()];
+                int tempyg[img.height()];
+                int tempyb[img.height()];
+                for (int j = 0; j < img.height(); j++) {
+                    if (j < y) {
+                        tempyr[j] = 0;
+                        tempyg[j] = 0;
+                        tempyb[j] = 0;
+                    } else {
+                        tempyr[j] = img.pixelColor(i,j-y).red();
+                        tempyg[j] = img.pixelColor(i,j-y).green();
+                        tempyb[j] = img.pixelColor(i,j-y).blue();
+                    }
+                }
+                for (int j = 0; j < img.height(); j++) {
+                    img.setPixel(i,j,qRgb(tempyr[j],tempyg[j],tempyb[j]));
                 }
             }
-            for (int j = 0; j < img.height(); j++) {
-                img.setPixel(i,j,tempy[j]);
+        }
+    } else {
+        y = img.height() - (y * -1);
+        for (int i = 0; i < img.width(); i++) {
+            if (img.format() == QImage::Format_Indexed8) {
+                int tempy[img.height()];
+                for (int j = 0; j < img.height(); j++) {
+                    if (y < j) {
+                        tempy[j] = 0;
+                    } else {
+                        tempy[j] = img.pixelIndex(i,(img.height()-y-1)+j);
+                    }
+                }
+                for (int j = 0; j < img.height(); j++) {
+                    img.setPixel(i,j,tempy[j]);
+                }
+            } else {
+                int tempyr[img.height()];
+                int tempyg[img.height()];
+                int tempyb[img.height()];
+                for (int j = 0; j < img.height(); j++) {
+                    if (y < j) {
+                        tempyr[j] = 0;
+                        tempyg[j] = 0;
+                        tempyb[j] = 0;
+                    } else {
+                        tempyr[j] = img.pixelColor(i,(img.height()-y-1)+j).red();
+                        tempyg[j] = img.pixelColor(i,(img.height()-y-1)+j).green();
+                        tempyb[j] = img.pixelColor(i,(img.height()-y-1)+j).blue();
+                    }
+                }
+                for (int j = 0; j < img.height(); j++) {
+                    img.setPixel(i,j,qRgb(tempyr[j],tempyg[j],tempyb[j]));
+                }
             }
         }
     }
@@ -191,29 +305,21 @@ void MainWindow::on_translate_clicked()
     onShowImg();
 }
 
-void MainWindow::filterImg(int matriks) {
+void MainWindow::filterImg(vector<vector<int>> matriks) {
     QImage imgTemp = img;
     for (int j = 0; j < img.height(); j++) {
         for (int i = 0; i < img.width(); i++) {
             if (j > 0 && i > 0 && i < img.width() - 1 && j < img.height() - 1) {
                 if (img.format() == QImage::Format_Indexed8) {
-                    int temp[3][3];
-
-                    temp[0][0] = img.pixelIndex(i-1,j-1);
-                    temp[0][1] = img.pixelIndex(i-1,j);
-                    temp[0][2] = img.pixelIndex(i-1,j+1);
-                    temp[1][0] = img.pixelIndex(i,j-1);
-                    temp[1][1] = img.pixelIndex(i,j);
-                    temp[1][2] = img.pixelIndex(i,j+1);
-                    temp[2][0] = img.pixelIndex(i+1,j-1);
-                    temp[2][1] = img.pixelIndex(i+1,j);
-                    temp[2][2] = img.pixelIndex(i+1,j+1);
+                    vector<vector<int>> temp{ {img.pixelIndex(i-1,j-1),img.pixelIndex(i-1,j),img.pixelIndex(i-1,j+1)},
+                                              {img.pixelIndex(i,j-1),img.pixelIndex(i,j),img.pixelIndex(i,j+1)},
+                                              {img.pixelIndex(i+1,j-1),img.pixelIndex(i+1,j),img.pixelIndex(i+1,j+1)} };
 
                     int sum = 0;
 
                     for (int y = 0; y < 3; y++) {
                         for (int x = 0; x < 3; x++) {
-                            sum += (temp[y][x] * matriks[y][x]);
+                            sum += (temp.at(y).at(x) * matriks.at(y).at(x));
                         }
                     }
 
@@ -265,9 +371,9 @@ void MainWindow::filterImg(int matriks) {
 
                     for (int y = 0; y < 3; y++) {
                         for (int x = 0; x < 3; x++) {
-                            sumr += (tempr[y][x] * matriks[y][x]);
-                            sumg += (tempg[y][x] * matriks[y][x]);
-                            sumb += (tempb[y][x] * matriks[y][x]);
+                            sumr += (tempr[y][x] * matriks.at(y).at(x));
+                            sumg += (tempg[y][x] * matriks.at(y).at(x));
+                            sumb += (tempb[y][x] * matriks.at(y).at(x));
                         }
                     }
 
@@ -299,17 +405,9 @@ void MainWindow::filterImg(int matriks) {
 
 void MainWindow::on_sharpen_clicked()
 {
-    QImage imgTemp = img;
-    int matriks[3][3];
-    matriks[0][0] = 0;
-    matriks[0][1] = -1;
-    matriks[0][2] = 0;
-    matriks[1][0] = -1;
-    matriks[1][1] = 5;
-    matriks[1][2] = -1;
-    matriks[2][0] = 0;
-    matriks[2][1] = -1;
-    matriks[2][2] = 0;
+    vector<vector<int>> matriks{ {0,-1,0},
+                                 {-1,5,-1},
+                                 {0,-1,0} };
     filterImg(matriks);
     onShowImg();
 }
@@ -328,5 +426,34 @@ void MainWindow::on_grayscale_clicked()
 
 void MainWindow::on_smoothen_clicked()
 {
+    vector<vector<int>> matriks{ {0,1,0},
+                                 {1,-3,1},
+                                 {0,1,0} };
+    filterImg(matriks);
+    onShowImg();
+}
 
+void MainWindow::on_rotate_clicked()
+{
+    QString degText = ui->rotateDeg->text();
+    int deg = degText == NULL ? 0 : 360-degText.toInt();
+
+    QImage imgTemp = img;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            imgTemp.setPixel(i,j,0);
+        }
+    }
+    int newX,newY;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            newX = (i*cos(deg)) - (j*sin(deg));
+            newY = (i*sin(deg)) + (j*cos(deg));
+            if (newX >= 0 && newY >= 0 && newX < img.width() && newY < img.height()) {
+                imgTemp.setPixel(newX,newY,img.pixelIndex(i,j));
+            }
+        }
+    }
+    img = imgTemp;
+    onShowImg();
 }
