@@ -23,23 +23,34 @@ const double pi = 3.14159265358979323846;
 
 void MainWindow::on_pushButton_clicked()
 {
-    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\lena.bmp");
+    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-2.bmp");
     onShowImg();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    on_grayscale_clicked();
+    slice();
+    onShowImg();
+}
+
+void MainWindow::slice() {
     for (int j = 0; j < img.height(); j++) {
         for (int i = 0; i < img.width(); i++) {
-            if (img.pixelIndex(i,j) <= 127) {
-                img.setPixel(i,j,0);
+            if (img.format() == QImage::Format_Indexed8) {
+                if (img.pixelIndex(i,j) <= 127) {
+                    img.setPixel(i,j,0);
+                } else {
+                    img.setPixel(i,j,255);
+                }
             } else {
-                img.setPixel(i,j,255);
+                if ((img.pixelColor(i,j).red() * 0.299) + (img.pixelColor(i,j).green() * 0.587) + (img.pixelColor(i,j).blue() * 0.144) <= 127) {
+                    img.setPixel(i,j,qRgb(0,0,0));
+                } else {
+                    img.setPixel(i,j,qRgb(255,255,255));
+                }
             }
         }
     }
-    onShowImg();
 }
 
 void MainWindow::onShowImg()
@@ -162,6 +173,12 @@ void MainWindow::on_translate_clicked()
     int x = xAxis == NULL ? 0 : xAxis.toInt();
     int y = yAxis == NULL ? 0 : yAxis.toInt();
 
+    translate(x,y);
+
+    onShowImg();
+}
+
+void MainWindow::translate(int x, int y) {
     if (x >= 0) {
         for (int j = 0; j < img.height(); j++) {
             if (img.format() == QImage::Format_Indexed8) {
@@ -303,8 +320,6 @@ void MainWindow::on_translate_clicked()
             }
         }
     }
-
-    onShowImg();
 }
 
 void MainWindow::filterImg(vector<vector<int>> matriks) {
@@ -429,7 +444,7 @@ void MainWindow::on_grayscale_clicked()
 void MainWindow::on_smoothen_clicked()
 {
     vector<vector<int>> matriks{ {0,1,0},
-                                 {1,-3,1},
+                                 {1,-1,1},
                                  {0,1,0} };
     filterImg(matriks);
     onShowImg();
@@ -511,4 +526,54 @@ void MainWindow::on_notBtn_clicked()
 void MainWindow::on_saveBtn_clicked()
 {
     img.save("lena1","BMP");
+}
+
+void MainWindow::on_zoomBtn_clicked()
+{
+    zoomIn();
+    onShowImg();
+}
+
+void MainWindow::zoomIn() {
+    QImage imgZoom = img;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            if (img.format() == QImage::Format_Indexed8) {
+                if ((i*2)+1 < img.width() && (j*2)+1 < img.height()) {
+                    imgZoom.setPixel(i*2,j*2,img.pixelIndex(i,j));
+                    imgZoom.setPixel(i*2,(j*2)+1,img.pixelIndex(i,j));
+                    imgZoom.setPixel((i*2)+1,j*2,img.pixelIndex(i,j));
+                    imgZoom.setPixel((i*2)+1,(j*2)+1,img.pixelIndex(i,j));
+                }
+            } else {
+                if ((i*2)+1 < img.width() && (j*2)+1 < img.height()) {
+                    int r = img.pixelColor(i,j).red();
+                    int g = img.pixelColor(i,j).green();
+                    int b = img.pixelColor(i,j).blue();
+                    imgZoom.setPixel(i*2,j*2,qRgb(r,g,b));
+                    imgZoom.setPixel(i*2,(j*2)+1,qRgb(r,g,b));
+                    imgZoom.setPixel((i*2)+1,j*2,qRgb(r,g,b));
+                    imgZoom.setPixel((i*2)+1,(j*2)+1,qRgb(r,g,b));
+                }
+            }
+        }
+    }
+    img = imgZoom;
+}
+
+void MainWindow::on_recognize_clicked()
+{
+    translate(-img.width()/4,-img.height()/4);
+    zoomIn();
+    slice();
+    onShowImg();
+}
+
+void MainWindow::on_showEdge_clicked()
+{
+    vector<vector<int>> matriks{ {1,1,1},
+                                 {1,-8,1},
+                                 {1,1,1} };
+    filterImg(matriks);
+    onShowImg();
 }

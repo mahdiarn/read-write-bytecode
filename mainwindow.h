@@ -51,6 +51,18 @@ private slots:
 
     void on_saveBtn_clicked();
 
+    void on_zoomBtn_clicked();
+
+    void zoomIn();
+
+    void translate(int x, int y);
+
+    void slice();
+
+    void on_recognize_clicked();
+
+    void on_showEdge_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
