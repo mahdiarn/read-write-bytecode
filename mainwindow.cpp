@@ -542,7 +542,10 @@ void MainWindow::on_notBtn_clicked()
 
 void MainWindow::on_saveBtn_clicked()
 {
-    img.save("lena1","BMP");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image File"),
+                                                    QString(),
+                                                    tr("Images (*.bmp)"));
+    img.save(fileName,"BMP");
 }
 
 void MainWindow::on_zoomBtn_clicked()

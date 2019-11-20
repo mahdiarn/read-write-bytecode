@@ -36,6 +36,9 @@
       <height>601</height>
      </rect>
     </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -415,7 +418,7 @@
      <x>0</x>
      <y>0</y>
      <width>930</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
