@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     OperasiGradien.cpp \
+    OperasiLaplace.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     OperasiGradien.h \
+    OperasiLaplace.h \
     mainwindow.h
 
 FORMS += \
