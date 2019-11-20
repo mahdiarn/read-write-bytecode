@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "OperasiGradien.h"
+#include "OperasiLaplace.h"
+#include<QDebug>
 #include <vector>
 #include <math.h>
 

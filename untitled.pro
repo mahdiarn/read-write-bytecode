@@ -16,10 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    OperasiGradien.cpp \
+    OperasiLaplace.cpp \
+    PenapisGaussian.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    OperasiGradien.h \
+    OperasiLaplace.h \
+    PenapisGaussian.h \
     mainwindow.h
 
 FORMS += \
