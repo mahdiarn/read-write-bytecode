@@ -24,9 +24,11 @@ QImage img;
 
 const double pi = 3.14159265358979323846;
 
+vector<vector<vector<int>>> listPoint;
+
 void MainWindow::on_pushButton_clicked()
 {
-    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-2.bmp");
+    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-3.bmp");
     onShowImg();
 }
 
@@ -154,6 +156,11 @@ void MainWindow::on_flipY_clicked()
 
 void MainWindow::on_negative_clicked()
 {
+    negative();
+    onShowImg();
+}
+
+void MainWindow::negative() {
     for (int j = 0; j < img.height(); j++) {
         for (int i = 0; i < img.width(); i++) {
             if (img.format() == QImage::Format_Indexed8) {
@@ -166,7 +173,6 @@ void MainWindow::on_negative_clicked()
             }
         }
     }
-    onShowImg();
 }
 
 void MainWindow::on_translate_clicked()
@@ -566,10 +572,49 @@ void MainWindow::zoomIn() {
 
 void MainWindow::on_recognize_clicked()
 {
-    translate(-img.width()/4,-img.height()/4);
+    translate(-img.width()/5,-img.height()/4);
     zoomIn();
+    sharpen();
     slice();
+    vector<int> bw = bwCount();
+    if (bw.at(0) > bw.at(1)) {
+        negative();
+    }
+    translate(-img.width()/10,0);
+    translate(img.width()/5,0);
+    translate(-img.width()/10,0);
+    //smear();
+    edgeDetect();
+    translate(0,-img.height()/3);
+    translate(0,img.height()/2);
+    translate(0,-img.height()/2);
+    translate(-img.width()/10,0);
+    translate(0,-img.height()/10);
+    //smearBlack();
+    //noiseReductionY();
+    /*
+    vector<vector<int>> pts;
+    int count = 0;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = img.width()/5; i < img.width()-(img.width()/5); i++) {
+            if (img.pixelColor(i,j).red() == 255) {
+                pts.push_back({i,j});
+            }
+        }
+    }
+    translate(-img.width()/5,searchY(pts));
+    */
     onShowImg();
+}
+
+int MainWindow::searchY(vector<vector<int>> li) {
+    int idx = 0;
+    for (int i = 1; i < li.size(); i++) {
+        if (li.at(i).at(0) < li.at(idx).at(0)) {
+            idx = i;
+        }
+    }
+    return li.at(idx).at(1);
 }
 
 void MainWindow::on_showEdge_clicked()
@@ -579,4 +624,175 @@ void MainWindow::on_showEdge_clicked()
                                  {1,1,1} };
     filterImg(matriks);
     onShowImg();
+}
+
+void MainWindow::smear(){
+    int count;
+    if (img.format() == QImage::Format_Indexed8) {
+        for (int j = 0; j < img.height(); j++) {
+            count = 0;
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelIndex(i,j) == 0) {
+                    count++;
+                }
+            }
+            if (count < (img.width()/5)+100 || count > (img.width()/5)+250) {
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,255);
+                }
+            }
+        }
+    } else {
+        for (int j = 0; j < img.height(); j++) {
+            count = 0;
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelColor(i,j).red() == 0) {
+                    count++;
+                }
+            }
+            if (count < (img.width()/5)+100 || count > (img.width()/5)+250) {
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,qRgb(255,255,255));
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::smearBlack(){
+    int count;
+    if (img.format() == QImage::Format_Indexed8) {
+        for (int j = 0; j < img.height(); j++) {
+            count = 0;
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelIndex(i,j) == 255) {
+                    count++;
+                }
+            }
+            if (count < 150 || count > 270) {
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,0);
+                }
+            }
+        }
+    } else {
+        for (int j = 0; j < img.height(); j++) {
+            count = 0;
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelColor(i,j).red() == 255) {
+                    count++;
+                }
+            }
+            if (count < 10 || count > 100) {
+                for (int i = 0; i < img.width(); i++) {
+                    img.setPixel(i,j,qRgb(0,0,0));
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::noiseReductionY() {
+    if (img.format() == QImage::Format_Indexed8) {
+        for (int j = 0; j < img.height(); j++) {
+            for (int i = 0; i < img.width(); i++) {
+                if (i <= img.width()/6 || i >= img.width() - (img.width()/6)) {
+                    if (img.pixelIndex(i,j) == 255) {
+                        img.setPixel(i,j,0);
+                    }
+                }
+            }
+        }
+    } else {
+        for (int j = 0; j < img.height(); j++) {
+            for (int i = 0; i < img.width(); i++) {
+                if (i <= img.width()/6 || i >= img.width() - (img.width()/6)) {
+                    if (img.pixelColor(i,j).red() == 255) {
+                        img.setPixel(i,j,qRgb(0,0,0));
+                    }
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::on_smear_clicked()
+{
+    /*vector<int> bw = bwCount();
+    if (bw.at(0) > bw.at(1)) {
+        smearBlack();
+    } else {
+        smear();
+    }*/
+    dilate();
+    onShowImg();
+}
+
+void MainWindow::dilate() {
+    vector<vector<int>> matriks{ {1,1,1},
+                                 {1,1,1},
+                                 {1,1,1} };
+    filterImg(matriks);
+}
+
+void MainWindow::sharpen() {
+    vector<vector<int>> matriks{ {1,1,1},
+                                 {1,-6,1},
+                                 {1,1,1} };
+    filterImg(matriks);
+}
+
+void MainWindow::edgeDetect() {
+    vector<vector<int>> matriks{ {1,1,1},
+                                 {1,-8,1},
+                                 {1,1,1} };
+    filterImg(matriks);
+}
+
+void MainWindow::cll() {
+    vector<vector<int>> listPt;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            if (!searchPt(listPt,i,j)) {
+
+            }
+        }
+    }
+}
+
+bool MainWindow::searchPt(vector<vector<int>> li, int x, int y) {
+    for (int i = 0; i < li.size(); i++) {
+        if (li.at(i).at(0) == x && li.at(i).at(1) == y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<int> MainWindow::bwCount() {
+    vector<int> res = {0,0};
+
+    if (img.format() == QImage::Format_Indexed8) {
+        for (int j = 0; j < img.height(); j++) {
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelIndex(i,j) == 0) {
+                    res.at(0)++;
+                } else {
+                    res.at(1)++;
+                }
+            }
+        }
+    } else {
+        for (int j = 0; j < img.height(); j++) {
+            for (int i = 0; i < img.width(); i++) {
+                if (img.pixelColor(i,j).red() == 0) {
+                    res.at(0)++;
+                } else {
+                    res.at(1)++;
+                }
+            }
+        }
+    }
+
+    return res;
 }

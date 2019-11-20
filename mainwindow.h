@@ -63,6 +63,30 @@ private slots:
 
     void on_showEdge_clicked();
 
+    void smear();
+
+    void on_smear_clicked();
+
+    vector<int> bwCount();
+
+    void negative();
+
+    void smearBlack();
+
+    void noiseReductionY();
+
+    void dilate();
+
+    void sharpen();
+
+    void edgeDetect();
+
+    void cll();
+
+    bool searchPt(vector<vector<int>> li, int x, int y);
+
+    int searchY(vector<vector<int>> li);
+
 private:
     Ui::MainWindow *ui;
 };
