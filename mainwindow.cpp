@@ -554,6 +554,12 @@ void MainWindow::on_zoomBtn_clicked()
     onShowImg();
 }
 
+void MainWindow::on_zoomOutBtn_clicked()
+{
+    zoomOut();
+    onShowImg();
+}
+
 void MainWindow::zoomIn() {
     QImage imgZoom = img;
     for (int j = 0; j < img.height(); j++) {
@@ -574,6 +580,32 @@ void MainWindow::zoomIn() {
                     imgZoom.setPixel(i*2,(j*2)+1,qRgb(r,g,b));
                     imgZoom.setPixel((i*2)+1,j*2,qRgb(r,g,b));
                     imgZoom.setPixel((i*2)+1,(j*2)+1,qRgb(r,g,b));
+                }
+            }
+        }
+    }
+    img = imgZoom;
+}
+
+void MainWindow::zoomOut()
+{
+    QImage imgZoom = img;
+    for (int j = 0; j < img.height(); j++) {
+        for (int i = 0; i < img.width(); i++) {
+            if (img.format() == QImage::Format_Indexed8) {
+                if ((i*2)+1 < img.width() && (j*2)+1 < img.height()) {
+                    imgZoom.setPixel(i,j,img.pixelIndex(i*2,j*2));
+                } else {
+                    imgZoom.setPixel(i,j,0);
+                }
+            } else {
+                if ((i*2)+1 < img.width() && (j*2)+1 < img.height()) {
+                    int r = img.pixelColor(i*2,j*2).red();
+                    int g = img.pixelColor(i*2,j*2).green();
+                    int b = img.pixelColor(i*2,j*2).blue();
+                    imgZoom.setPixel(i,j,qRgb(r,g,b));
+                } else {
+                    imgZoom.setPixel(i,j,qRgb(0,0,0));
                 }
             }
         }
