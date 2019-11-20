@@ -443,8 +443,10 @@ void MainWindow::on_grayscale_clicked()
 
     for (int j = 0; j < img.height(); j++) {
         for (int i = 0; i < img.width(); i++) {
-            int gray = (img.pixelColor(i,j).red() * 0.299) + (img.pixelColor(i,j).green() * 0.587) + (img.pixelColor(i,j).blue() * 0.144);
-            img.setPixel(i,j,qRgb(gray,gray,gray));
+            if (img.pixelColor(i,j).red() != img.pixelColor(i,j).green() && img.pixelColor(i,j).red() != img.pixelColor(i,j).blue() && img.pixelColor(i,j).blue() != img.pixelColor(i,j).green()){
+                int gray = (img.pixelColor(i,j).red() * 0.299) + (img.pixelColor(i,j).green() * 0.587) + (img.pixelColor(i,j).blue() * 0.144);
+                img.setPixel(i,j,qRgb(gray,gray,gray));
+            }
         }
     }
     onShowImg();
