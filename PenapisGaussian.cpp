@@ -1,6 +1,6 @@
 #include "PenapisGaussian.h"
 
-std::vector<std::vector<int>> gaussian(std::vector<std::vector<int>> input) {
+std::vector<std::vector<int>> PenapisGaussian(std::vector<std::vector<int>> input) {
     std::vector<std::vector<int>> output;
     std::vector<int> outputTemp;
     for(std::size_t i=0; i < input.size(); i++) {

@@ -1,4 +1,5 @@
 #include "OperasiLaplace.h"
+#include "PenapisGaussian.h"
 
 std::vector<std::vector<int>> laplace(std::vector<std::vector<int>> input) {
     std::vector<std::vector<int>> output;
@@ -17,5 +18,11 @@ std::vector<std::vector<int>> laplace(std::vector<std::vector<int>> input) {
         }
     }
 
+    return output;
+}
+
+std::vector<std::vector<int>> LoG(std::vector<std::vector<int>> input) {
+    std::vector<std::vector<int>> gauss = PenapisGaussian(input);
+    std::vector<std::vector<int>> output = laplace(gauss);
     return output;
 }
