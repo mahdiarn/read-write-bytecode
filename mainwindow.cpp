@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include "OperasiGradien.h"
 #include "OperasiLaplace.h"
-#include<QDebug>
+#include <QDebug>
+#include <QFileDialog>
 #include <vector>
 #include <math.h>
 
@@ -28,7 +29,12 @@ vector<vector<vector<int>>> listPoint;
 
 void MainWindow::on_pushButton_clicked()
 {
-    img.load("C:\\pengcit\\read-write-bytecode\\file lama\\examples\\mobil-3.bmp");
+//    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-3.bmp");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                        "C:/",
+                                                        tr("Images (*.png *.xpm *.jpg)"));
+    qDebug() << fileName;
+    img.load(fileName);
     onShowImg();
 }
 
@@ -536,7 +542,10 @@ void MainWindow::on_notBtn_clicked()
 
 void MainWindow::on_saveBtn_clicked()
 {
-    img.save("lena1","BMP");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image File"),
+                                                    QString(),
+                                                    tr("Images (*.bmp)"));
+    img.save(fileName,"BMP");
 }
 
 void MainWindow::on_zoomBtn_clicked()
