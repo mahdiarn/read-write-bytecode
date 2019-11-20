@@ -19,6 +19,7 @@ SOURCES += \
     OperasiGradien.cpp \
     OperasiLaplace.cpp \
     OperasiPrewitt.cpp \
+    OperasiRoberts.cpp \
     OperasiSobel.cpp \
     PenapisGaussian.cpp \
     main.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     OperasiGradien.h \
     OperasiLaplace.h \
     OperasiPrewitt.h \
+    OperasiRoberts.h \
     OperasiSobel.h \
     PenapisGaussian.h \
     mainwindow.h
