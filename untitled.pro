@@ -18,12 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     OperasiGradien.cpp \
     OperasiLaplace.cpp \
+    PenapisGaussian.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     OperasiGradien.h \
     OperasiLaplace.h \
+    PenapisGaussian.h \
     mainwindow.h
 
 FORMS += \
