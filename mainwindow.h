@@ -53,7 +53,11 @@ private slots:
 
     void on_zoomBtn_clicked();
 
+    void on_zoomOutBtn_clicked();
+
     void zoomIn();
+
+    void zoomOut();
 
     void translate(int x, int y);
 
