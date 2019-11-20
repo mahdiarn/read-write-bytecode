@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include "OperasiGradien.h"
 #include "OperasiLaplace.h"
-#include<QDebug>
+#include <QDebug>
+#include <QFileDialog>
 #include <vector>
 #include <math.h>
 
@@ -28,7 +29,12 @@ vector<vector<vector<int>>> listPoint;
 
 void MainWindow::on_pushButton_clicked()
 {
-    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-3.bmp");
+//    img.load("C:\\Users\\Arrw\\Desktop\\read-write-bytecode\\file lama\\examples\\mobil-3.bmp");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                        "C:/",
+                                                        tr("Images (*.png *.xpm *.jpg)"));
+    qDebug() << fileName;
+    img.load(fileName);
     onShowImg();
 }
 
